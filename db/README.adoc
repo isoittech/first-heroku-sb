@@ -1,0 +1,23 @@
+:toc:
+
+= DB
+
+```
+CREATE DATABASE herokutest
+  WITH OWNER = postgres
+       ENCODING = 'UTF8'
+       TABLESPACE = pg_default
+       LC_COLLATE = 'Japanese_Japan.932'
+       LC_CTYPE = 'Japanese_Japan.932'
+       CONNECTION LIMIT = -1;
+
+CREATE TABLE person (
+id SERIAL PRIMARY KEY
+, name VARCHAR(16)
+, age INT) ;;
+
+INSERT INTO person VALUES
+ (1,'taro',19)
+ , (2,'tadokoro',24)
+ , (3,'hanako',14);
+```

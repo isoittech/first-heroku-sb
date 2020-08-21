@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: postgres://irawwoppzkvech:99192a844aef31531f53858f940614f165a3b035377f959fee658be03d974ddb@ec2-52-200-111-186.compute-1.amazonaws.com:5432/d9dlrah1ahj4o4
+    username: irawwoppzkvech
+    password: 99192a844aef31531f53858f940614f165a3b035377f959fee658be03d974ddb

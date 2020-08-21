@@ -1,0 +1,42 @@
+= Heroku メモ
+
+== 未分類
+
+* `heroku git:remote -a <<APP_NAME>>` で既存のアプリをHerokuのGitレポジトリに登録できる。
+* `git push heroku master` 実行直後に出現するHTTP Basic認証ダイアログに入力するIDはアカウントID、PWは `heroku auth:token` 実行により表示されるトークンである。
+* `git push heroku master` 実行時、 `Could not target platform: 'Java SE 11' using tool chain: 'JDK 8 (1.8)'.` というエラーが出た場合は、 `system.properties` をプロジェクトルートに作成し、 `java.runtime.version=11` を記載してcommitして再試行することで成功する。
+* `git push heroku master` 実行によりHeroku上にpushされるGitレポジトリのURLは、.git/config上の「https://xxxx.git」のURLである。別の端末で `heroku login; git clone https://xxxx.git` を実施すればCloneできる。
+* pushしてSpring Bootアプリが起動後、 `heroku log` でログを見ることができる。
+* `heroku run <<Linux コマンド>>` で任意の実行コマンドができるっぽい。遅いが。
+* `heroku run bash` でSSH接続できる。
+* SSH接続後、topとかpsとか実行してもプロセス情報を取得できない。
+* SSH接続後、 `./gradlew bootRun` でBootアプリ起動できる。
+* アプリでHerokuサーバ上でHerokuが提供するPostgresサーバを利用するには：
++
+`heroku addons:create heroku-postgresql:hobby-dev` とする。 `heroku addons` で結果を確認する。
+* PostgreSQLがインストールされ、psqlコマンドがローカルで実行可能な状態において、 `heroku pg:psql` とすると、HerokuのPostgresサーバのpsqlを実行できる。
+* Heroku上のデータベースのDB名とかユーザとかパスワードとかURLは、アプリのaddonから辿れる。接続コマンドも載ってる。
+* ローカルで構築したDBからHeroku上のデータベースへテーブル・データコピーできる。
++
+```
+export PGUSER=postgres
+export PGPASSWORD=postgres
+heroku pg:push herokutest postgresql-infinite-09152 --app first-heroku-sb
+# データ確認のために接続
+heroku pg:psql postgresql-infinite-09152 --app first-heroku-sb
+# DBを選択（DB名は事前に確認しておく）
+first-heroku-sb::DATABASE=> \c d9dlrah1ahj4o4
+# テーブルが定義されたかを確認
+first-heroku-sb::DATABASE=> \d
+# データを確認
+first-heroku-sb::DATABASE=> select * from person;
+```
+
+
+
+== 参考サイト
+
+* https://qiita.com/syou007/items/29742ebeadfefd0184ea
+* Heroku PostgreSQL
++
+https://devcenter.heroku.com/articles/heroku-postgresql#provisioning-heroku-postgres
